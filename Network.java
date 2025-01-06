@@ -29,9 +29,11 @@ public class Network {
      *  If there is no such user, returns null.
      *  Notice that the method receives a String, and returns a User object. */
     public User getUser(String name) {
-        for(int i = 0; i < users.length; i++) {
-            if(users[i] != null && name.equals(users[i].getName())) {
-                return users[i];
+        if(name != null) {
+            for(int i = 0; i < users.length; i++) {
+                if(users[i] != null && name.toLowerCase().equals(users[i].getName().toLowerCase())) {
+                    return users[i];
+                }
             }
         }
         return null;
@@ -110,7 +112,7 @@ public class Network {
     /** Computes and returns the name of the most popular user in this network: 
      *  The user who appears the most in the follow lists of all the users. */
     public String mostPopularUser() {
-        String mostPopular = " ";
+        String mostPopular = null;
         int followeeCounter = 0;
         
         for(int i = 0; i < userCount;i++) {
@@ -146,22 +148,16 @@ public class Network {
 
     // Returns a textual description of all the users in this network, and who they follow.
     public String toString() {
+        if(userCount == 0) {
+            return "Network:";
+        }
         String result = "Network:\n";
 
     for (int i = 0; i < userCount; i++) {
-        String userName = users[i].getName();
-        result += userName + " -> ";
-
-        User user = users[i];
-        String[] followees = user.getfFollows(); 
-        if (followees.length == 0) {
-            result += "No followees";
-        } else {
-            for(int j = 0; j < followees.length; j++) {
-                result += followees[j]  + " ";
-            }
-        }
-        result += "\n";
+        result += users[i].toString();
+        if(i < userCount - 1) {
+            result += '\n';
+        }    
     }
     return result;
 }
